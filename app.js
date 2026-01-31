@@ -277,8 +277,11 @@ function updateGhostBlock(event) {
 }
 
 function onClick(event) {
-    if (isTouchMode) return; // Touch mode uses buttons, disable direct click placement
+    // Only handle left click (button 0)
     if (event.button !== 0) return;
+
+    // In touch mode, touch events handle placement
+    if (isTouchMode) return;
 
     const rect = renderer.domElement.getBoundingClientRect();
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -411,7 +414,9 @@ renderer.domElement.addEventListener('wheel', (e) => {
 // See 'handleInputStart' and subsequent listeners.
 
 renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
-renderer.domElement.addEventListener('mousedown', onClick);
+
+// PC click handler - only for left click placement
+renderer.domElement.addEventListener('click', onClick);
 
 // Keyboard controls
 document.addEventListener('keydown', (e) => {
